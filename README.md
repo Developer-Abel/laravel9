@@ -17,8 +17,9 @@ Route::view('/blog','blog');
 Route::view('/about','about');
 ```
 
-## Renombrando rutas (namesp)
+## Renombrando rutas (names)
 El nombre de las rutas se pueden cambiar (lo que se ve en el navegador) y el link debe referenciar al **name**, con esto no afecta el vinculo.
+
 **web**
 ```php
 Route::view('/','welcome');
@@ -56,4 +57,23 @@ Route::view('/about','about')->name('about');
     </ul>
     <h3>Home</h3>
 </body>
+```
+
+## Include()
+Funciona como un include comun de php, laravel ya sabe que tienen que dirigirse al **view**, entonces solo vamos a especificar la carpeta en donde se encuentra.  
+
+```html
+<body>
+    @include('partials.navigation')
+    <h3>Home</h3>
+</body>
+```
+**view/partials/navigation**
+```html
+<ul>
+  <li><a href="{{ route('home') }}">Home</a></li>
+  <li><a href="{{ route('blog') }}">Blog</a></li>
+  <li><a href="{{ route('about') }}">About</a></li>
+  <li><a href="{{ route('contact') }}">Contacto</a></li>
+</ul>
 ```

@@ -6,6 +6,7 @@
 	<title></title>
 </head>
 <body>
+	@include('partials.navigation')
 	<h2>blog</h2>
 </body>
 </html>
