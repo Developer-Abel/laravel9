@@ -110,9 +110,11 @@ En **app.blade.php** se determina que va a heredar con la directiva **@yield**, 
 
 ## Plantillas con **componentes**
 Importante! se debe de crear una carpeta que se llame **components** (es estandar), despues dentro la carpeta **layout** (o algun otro nombre), en el **components/layout/app.blade** el contenedor principal se pone como *{{ $slot }}* y los parametros como *{{$title ?? ''}}* y en los otros archivos se consumen como *<x-layout.app title="Home">*.  
+---	
 **x-**: "views/components".  
 **layout.app**: "/layout/app.blade.php".  
 **$slot**: es propia de PHP.  
+---
 
 **components/layout/app.blade.php**
 ```php
