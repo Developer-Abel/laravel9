@@ -77,7 +77,7 @@ Funciona como un include comun de php, laravel ya sabe que tienen que dirigirse 
   <li><a href="{{ route('contact') }}">Contacto</a></li>
 </ul>
 ```
-## plantillas con **Herencias**
+## Plantillas con **Herencias**
 Primero se crea una carpeta donde va a estar la pantilla general **view/layout/app.blade.php**.  
 En **app.blade.php** se determina que va a heredar con la directiva **@yield**, y en los archivos se consume esta directiva a traves de la directiva **@section**, Para que esto funcione en los archivos a consumir (contacto, home, blog...) tiene que extender con la directiva **@extends**, laravel ya sabe que esta en **view**.  
 
@@ -97,7 +97,7 @@ En **app.blade.php** se determina que va a heredar con la directiva **@yield**, 
 </html>
 ```
 
-**contacto (y otros)**
+**view/contacto.blade.php - y otros**
 ```php
 @extends('layout.app')
 
@@ -106,4 +106,34 @@ En **app.blade.php** se determina que va a heredar con la directiva **@yield**, 
 @section('content')
 	<h2>contacto</h2>
 @endsection
+```
+
+## Plantillas con **componentes**
+Importante! se debe de crear una carpeta que se llame **components** (es estandar), despues dentro la carpeta **layout** (o algun otro nombre), en el **components/layout/app.blade** el contenedor principal se pone como *{{ $slot }}* y los parametros como *{{$title ?? ''}}* y en los otros archivos se consumen como *<x-layout.app title="Home">*.  
+**x-**: "views/components".  
+**layout.app**: "/layout/app.blade.php".  
+**$slot**: es propia de PHP.  
+
+**components/layout/app.blade.php**
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevGala - {{$title ?? ''}}</title>
+</head>
+<body>
+    {{-- @include('partials.navigation') --}}
+    <x-layout.navigation />
+    {{-- @yield('content') --}}
+    {{ $slot }}
+</body>
+</html>
+```
+**view/contacto.blade.php - y otros**
+```html
+<x-layout.app title="Home">
+    <h3>Home</h3>
+</x-layout.app>
 ```

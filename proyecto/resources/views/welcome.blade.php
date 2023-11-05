@@ -1,8 +1,10 @@
 
-@extends('layout.app')
+{{-- @extends('layout.app')
 
 @section('title','Home')
 
-@section('content')
+@section('content') --}}
+<x-layout.app title="Home">
     <h3>Home</h3>
-@endsection
+</x-layout.app>
+{{-- @endsection --}}

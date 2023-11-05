@@ -1,8 +1,3 @@
-
-@extends('layout.app')
-
-@section('title','about')
-
-@section('content')
-	<h2>about</h2>
-@endsection
+<x-layout.app title="About">
+    <h3>About</h3>
+</x-layout.app>
