@@ -1,2 +1,2 @@
 # laravel9
-Proyecto laravel 9
+Creando un proyecto desde cero con laravel 9
