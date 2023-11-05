@@ -77,3 +77,33 @@ Funciona como un include comun de php, laravel ya sabe que tienen que dirigirse 
   <li><a href="{{ route('contact') }}">Contacto</a></li>
 </ul>
 ```
+## plantillas con **Herencias**
+Primero se crea una carpeta donde va a estar la pantilla general **view/layout/app.blade.php**.  
+En **app.blade.php** se determina que va a heredar con la directiva **@yield**, y en los archivos se consume esta directiva a traves de la directiva **@section**, Para que esto funcione en los archivos a consumir (contacto, home, blog...) tiene que extender con la directiva **@extends**, laravel ya sabe que esta en **view**.  
+
+**view/layout/app.blade.php**
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title')</title>
+</head>
+<body>
+    @include('partials.navigation')
+    @yield('content')
+</body>
+</html>
+```
+
+**contacto (y otros)**
+```php
+@extends('layout.app')
+
+@section('title','contacto')
+
+@section('content')
+	<h2>contacto</h2>
+@endsection
+```

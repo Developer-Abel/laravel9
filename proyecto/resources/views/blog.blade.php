@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-</head>
-<body>
-	@include('partials.navigation')
+
+@extends('layout.app')
+
+@section('title','blog')
+
+@section('content')
 	<h2>blog</h2>
-</body>
-</html>
+@endsection
