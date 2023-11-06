@@ -205,8 +205,8 @@ Si solo se esta utilizando xampp o wampp sin configuraciones adicionales, el **u
 ## Migraciones
 Las migraciones son ejecuciones para crear, editar, eliminar tablas y se lleva un control en la BD. Estas migraciones se encuentran en **database/migrations/**, cada uno de los archivos contienen 2 metodo.  
 
-**public function up():** Es lo que crea o actualiza
-**public function down():** Es lo inverso elimina o desase
+**public function up():** Es lo que crea o actualiza.  
+**public function down():** Es lo inverso elimina o desase.
 ```php
 public function up()
     {
@@ -240,13 +240,14 @@ users
 ```
 En la tabla **migrations** existe 2 columnas.  
 
-**migration:** Donde se registran las migraciones que se llevaron acabo, *si vuelven a ejecutar php artisan migrate no las tomara encuenta*.  
+**migration:** Donde se registran las migraciones que se llevaron acabo *(si vuelven a ejecutar php artisan migrate no las tomara encuenta)*.  
 
 **batch:** Cada cuando se ejecuta una migracion este se incrementa, se le conoce como lotes *Si requieren ajecutar una migracion y en esta columna ya tiene un lote deben de realizar un rollback al lote en especifico.*
 
 **Para desaser las migraciones**  
 
-Borra todas las tablas menos migrations, **IMPORTANTE:** solo se borran las migraciones del ultimo lote.
+Borra todas las tablas menos migrations.  
+**IMPORTANTE:** solo se borran las migraciones del ultimo lote.
 ```
 php artisan migrate:rollback
 ```
@@ -341,7 +342,7 @@ public function down()
     });
 }
 ```
-**Segundo añadimo/modificamos la columna**
+**Segundo añadimos/modificamos la columna**
 ```php
 public function up()
     {
