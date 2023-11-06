@@ -347,7 +347,7 @@ public function down()
 public function up()
     {
         Schema::table('post', function (Blueprint $table) {
-            // agrega la columna 'body' despues de la columna 'tittle'
+            // agrega la columna 'body' despues de la columna 'title'
             $table->longText('body')->after('title');
         });
     }
@@ -361,4 +361,98 @@ public function up()
 **Tercero Volvemos a ejecutar la migracion**
 ```
 php artisan migrate
+```
+## ORM (Object-Relational-mapping)
+"Es una forma de relacionar la base de datos y manejarlos como objetos".  
+
+### Modelos
+Para eso tenemos que crear un **modelo**, el nombre debe de ser *PascalCase*.
+```
+php artisan make:model Post
+```
+Una ves creado el modelo, se prosigue a invocarlo en el controlador, debemos de importar y llamar.
+```php
+namespace App\Http\Controllers;
+
+use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class PostController extends Controller{
+   function index(){
+      // $post = DB::table('post')->get();
+      $post = Post::get();
+      return view('blog', ['post'=>$post]);
+   }
+}
+```
+Por recomendación en el modelo se debe especificar el nombre de la tabla.
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    use HasFactory;
+
+    protected $table = 'post'; // Especificar el nombre de la tabla
+}
+```
+**PUNTO IMPORTANTE**  
+Al crear una migracion siempre es recomendable crear su modelo, entonces podemos utilizar el siguiente comando para crear los 2 al mismo tiempo.
+```
+php artisan make:model Post -m
+```
+### Tinker
+Es una forma de consultar los registros desde la terminal.  
+#### Ingrear a tinker
+```
+php artisan tinker
+```
+#### Obtener todos los registros.
+```
+Post::get()
+```
+#### Buscar solo un registro.
+```
+Post::find(1)
+```
+#### Acceder a un registro en especifico por su **id**.
+```
+$post=Post::find(1)
+```
+```
+$post->title
+```
+#### Actualizar un registro.
+```
+$post=Post::find(2)
+```
+```
+$post->title = "estoy modificando el titulo"
+```
+```
+$post->save()
+```
+#### Eliminar un registro.
+```
+$post=Post::find(3)
+```
+```
+$post->delete()
+```
+#### Crear un registro
+```
+$post = new Post;
+```
+```
+$post->title = 'Titulo 1'
+```
+```
+$post->body = 'Body1'
+```
+```
+$post->save()
 ```
