@@ -157,8 +157,9 @@ php artisan make:controller PostController --api
 
 ```  
 
-**Como llamarlo en las rutas**
-	Se tiene que importar *use App\Http\Controllers\PostController;*, esto dependiento si el controlador esté dentro de una carpeta
+**Como llamarlo en las rutas**  
+
+	Se tiene que importar *use App\Http\Controllers\PostController;* esto dependiento si el controlador esté dentro de una carpeta
 ```php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -189,3 +190,15 @@ class PostController extends Controller{
    }
 }
 ```
+
+## Conexión a base de datos
+La configuración se encuentra en el archivo **.env** que esta en la raiz del proyecto, se tiene que crear la BD y ponerlo en la variable **DB_DATABASE**.
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel9
+DB_USERNAME=root
+DB_PASSWORD=
+```
+*Si solo se esta utilizando xampp o wampp sin configuraciones adicionales, el **username = root** y el **password = **(vacio)
