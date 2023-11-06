@@ -307,21 +307,21 @@ Para encontrar todos los tipos de columnas.
 
 ### Comandos
 
-1. Crear una migracion.  
+#### Crear una migracion.  
 
 Se utiliza **create_NOMBRE-DE-LA-TABLA_table**.
 ```
 php artisan make:migration create_post_table
 ```
-2. Ejecutar una migración.
+#### Ejecutar una migración.
 ```
 php artisan migrate
 ```
-3. Añadir o cambiar de nombre una columna, *este comando hace un truncate a todas las tablas y las vuelve a crear*.
+#### Añadir o cambiar de nombre una columna, *este comando hace un truncate a todas las tablas y las vuelve a crear*.
 ```
 php artisan migrate:fresh
 ```
-4. Añadir o cambiar de nombre una comuna, *este comando no actualiza los datos ya insertados*.
+#### Añadir o cambiar de nombre una comuna, *este comando no actualiza los datos ya insertados*.
 
 **Primero creamos un archivo especificando a que tabla le vamos a modificar**
 ```
