@@ -139,3 +139,53 @@ Importante! se debe de crear una carpeta que se llame **components** (es estanda
     <h3>Home</h3>
 </x-layout.app>
 ```
+
+## Controladores
+
+Para crear controlador **vacio**
+```
+php artisan make:controller PostController
+```
+Para crear un controlador **7 metodos**
+```
+php artisan make:controller PostController -r
+
+```
+Para crear un controlador **api**
+```
+php artisan make:controller PostController --api
+
+```  
+
+**Como llamarlo en las rutas**
+	Se tiene que importar *use App\Http\Controllers\PostController;*, esto dependiento si el controlador esté dentro de una carpeta
+```php
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+
+
+
+Route::view('/','welcome')->name('home');
+Route::view('/otronombre','concact')->name('contact');
+Route::get('/blog',[PostController::class,'index'])->name('blog');
+Route::view('/about','about')->name('about');
+
+```
+**Controlador**
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PostController extends Controller{
+   function index(){
+      $post = [
+         ['title' =>'Titulo 1'],
+         ['title' =>'Titulo 2'],
+         ['title' =>'Titulo 3'],
+         ['title' =>'Titulo 4'],
+      ];
+      return view('blog', ['post'=>$post]);
+   }
+}
+```
