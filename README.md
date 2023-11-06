@@ -157,9 +157,8 @@ php artisan make:controller PostController --api
 
 ```  
 
-**Como llamarlo en las rutas**  
+**Como llamarlo en las rutas**: Se tiene que importar *use App\Http\Controllers\PostController;* esto dependiento si el controlador esté dentro de una carpeta.
 
-	Se tiene que importar *use App\Http\Controllers\PostController;* esto dependiento si el controlador esté dentro de una carpeta
 ```php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -201,4 +200,164 @@ DB_DATABASE=laravel9
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-*Si solo se esta utilizando xampp o wampp sin configuraciones adicionales, el **username = root** y el **password = **(vacio)
+Si solo se esta utilizando xampp o wampp sin configuraciones adicionales, el **username = root** y el **password =** (vacio).
+
+## Migraciones
+Las migraciones son ejecuciones para crear, editar, eliminar tablas y se lleva un control en la BD. Estas migraciones se encuentran en **database/migrations/**, cada uno de los archivos contienen 2 metodo.  
+
+**public function up():** Es lo que crea o actualiza
+**public function down():** Es lo inverso elimina o desase
+```php
+public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
+```
+**Para ejecutar las migraciones**
+```
+php artisan migrate
+```
+**Se crean estas tablas en la BD**
+```
+failed_jobs
+migrations
+password_resets
+personal_access_tokens
+users
+```
+En la tabla **migrations** existe 2 columnas.  
+
+**migration:** Donde se registran las migraciones que se llevaron acabo, *si vuelven a ejecutar php artisan migrate no las tomara encuenta*.  
+
+**batch:** Cada cuando se ejecuta una migracion este se incrementa, se le conoce como lotes *Si requieren ajecutar una migracion y en esta columna ya tiene un lote deben de realizar un rollback al lote en especifico.*
+
+**Para desaser las migraciones**  
+
+Borra todas las tablas menos migrations, **IMPORTANTE:** solo se borran las migraciones del ultimo lote.
+```
+php artisan migrate:rollback
+```
+
+**Si se requiere actualizar o añadir una columna despues de la migracion**  
+
+Actualizamos el archivo.
+```php
+Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('lastname'); // se agrego una columna despues de la migracion
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+```
+
+Podemos utilizar el siguiente comando para que se realice la migracion a todos los archivos nuevamente.
+```
+php artisan migrate:fresh
+```
+**IMPORTANTE:** Solo se debe de realizar esta ejecucion si no tenemos datos en productivo, ya que lo que hace es borrar todos los datos de las tablas, truncarlas y volverlas a crear.  
+
+**Para crear una migracion**  
+
+Se utiliza **create_NOMBRE-DE-LA-TABLA_table**.
+```
+php artisan make:migration create_post_table
+```
+Y se crea un archivo con los metodos **up()** y **down**.
+```
+2023_11_06_042221_create_post_table.php
+```
+**Modificamos el archivo creado**
+```php
+public function up()
+    {
+        Schema::create('post', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->timestamps();
+        });
+    }
+```
+**Ejecutamos la migracion**
+```
+php artisan migrate
+```
+## Migraciones (Resumen)
+### Puntos importantes
+
+Para encontrar todos los tipos de columnas.
+[link](https://laravel.com/docs/9.x/migrations#available-column-types "Title")
+
+### Comandos
+
+1. Crear una migracion.  
+
+Se utiliza **create_NOMBRE-DE-LA-TABLA_table**.
+```
+php artisan make:migration create_post_table
+```
+2. Ejecutar una migración.
+```
+php artisan migrate
+```
+3. Añadir o cambiar de nombre una columna, *este comando hace un truncate a todas las tablas y las vuelve a crear*.
+```
+php artisan migrate:fresh
+```
+4. Añadir o cambiar de nombre una comuna, *este comando no actualiza los datos ya insertados*.
+
+**Primero creamos un archivo especificando a que tabla le vamos a modificar**
+```
+php artisan make:migration add_body_to_post_table
+```
+Nos crea un archivo haciendo refencia a la tabla
+```php
+public function up()
+{
+    Schema::table('post', function (Blueprint $table) {
+        //
+    });
+}
+public function down()
+{
+    Schema::table('post', function (Blueprint $table) {
+        //
+    });
+}
+```
+**Segundo añadimo/modificamos la columna**
+```php
+public function up()
+    {
+        Schema::table('post', function (Blueprint $table) {
+            // agrega la columna 'body' despues de la columna 'tittle'
+            $table->longText('body')->after('title');
+        });
+    }
+    public function down()
+    {
+        Schema::table('post', function (Blueprint $table) {
+            $table->dropColumn('body');
+        });
+    }
+```
+**Tercero Volvemos a ejecutar la migracion**
+```
+php artisan migrate
+```
