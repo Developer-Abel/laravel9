@@ -493,7 +493,7 @@ function show(Post $post){
 Es recomendable seccionar las vistas, en este caso estamos trabajando con posts entonces creamos el directorio:  
 * view/post/
     * index.blade.php
-    * show.blade.php
+    * show.blade.php  
 **index.blade.php**
 ```html
 <x-layout.app title="Blog">
