@@ -537,7 +537,7 @@ Route::get('/blog/{post}',[PostController::class,'show'])->name('post.show');
 Route::view('/about','about')->name('about');
 ```
 ### Controlador
-creamos las dos funciones.
+Creamos las dos funciones.
 ```php
 function create(){
   return view('post.create');
@@ -568,4 +568,38 @@ En el **Form** el metodo debe de ser **POST**, el **action** debe dirigir a *pos
     <br>
     <a href="{{route('post.index')}}">Regresar</a>
 </x-layout.app>
+```
+## INSERT A BD
+Para obtener los datos **POST** en el controlador debemos de poner los parametros *store(Request $request)* en el metodo, y para redirigir a una ruta podemos utilizar *to_route('post.index');*.  
+**View**
+```html
+<x-layout.app title="Crear nuevo post">
+    <h1>Crear nuevo post</h1>
+
+    <form method="POST" action="{{route('post.store')}}">
+        @csrf
+        <label>
+            Title <br>
+            <input type="text" name="title"> <br>
+        </label>
+        <label>
+            Body <br>
+            <textarea name="body"></textarea> <br>
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+    <br>
+    <a href="{{route('post.index')}}">Regresar</a>
+</x-layout.app>
+```
+**Controller**
+```php
+function store(Request $request){
+      $post = New Post;
+      $post->title = $request->input('title'); // name='title'
+      $post->body = $request->input('body'); // name='body'
+      $post->save();
+
+      return to_route('post.index');
+   }
 ```
