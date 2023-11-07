@@ -8,16 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller{
    function index(){
-      // $post = DB::table('post')->get();
       $post = Post::get();
       return view('post.index', ['post'=>$post]);
    }
    function show(Post $post){
-      // return Post::find($post);
-      // return Post::findOrFail($post);
-      // return $post;
       return view('post.show',[
          'Post' => $post
       ]);
+   }
+   function create(){
+      return view('post.create');
+   }
+   function store(){
+      return 'store';
    }
 }

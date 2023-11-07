@@ -514,6 +514,58 @@ Es recomendable seccionar las vistas, en este caso estamos trabajando con posts 
     <a href="{{route('post.index')}}">Regresar</a>
 </x-layout.app>
 ```
+## Formulario method:POST
+### Ruta
+Creamos la ruta **create** que es donde va a estar el formulario.  
+```php
+Route::get('/blog/create',[PostController::class,'create'])->name('post.create');
+```
+Y la ruta **store** que es donde va a llegar el post.
+```php
+Route::post('/blog',[PostController::class,'store'])->name('post.store');
+```
+**IMPORTANTE:** Como ya tenemos una ruta */blog/{post}* y debajo de esta ruta intentamos crear la ruta */blog/create* estariamos sobreescribiendo las rutas, ya que la palabra **create** lo va a tomar como parametro **{post}**, para resolverlo se cambia de orden.
+```php
+Route::view('/','welcome')->name('home');
+Route::view('/otronombre','concact')->name('contact');
 
+Route::get('/blog',[PostController::class,'index'])->name('post.index');
+Route::get('/blog/create',[PostController::class,'create'])->name('post.create'); // importante el orden
+Route::post('/blog',[PostController::class,'store'])->name('post.store');
+Route::get('/blog/{post}',[PostController::class,'show'])->name('post.show');
 
+Route::view('/about','about')->name('about');
+```
+### Controlador
+creamos las dos funciones.
+```php
+function create(){
+  return view('post.create');
+}
+function store(){
+  return 'store';
+}
+```
+### Vista
+En el **Form** el metodo debe de ser **POST**, el **action** debe dirigir a *post.store*.  
+**IMPORTANTE:** En los metodos POST deben de tener **@csrf** que es el que genera un token.
+```html
+<x-layout.app title="Crear nuevo post">
+    <h1>Crear nuevo post</h1>
 
+    <form method="POST" action="{{route('post.store')}}">
+        @csrf
+        <label>
+            Title <br>
+            <input type="text" name="title"> <br>
+        </label>
+        <label>
+            Body <br>
+            <textarea name="body"></textarea> <br>
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+    <br>
+    <a href="{{route('post.index')}}">Regresar</a>
+</x-layout.app>
+```
