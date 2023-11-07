@@ -10,6 +10,14 @@ class PostController extends Controller{
    function index(){
       // $post = DB::table('post')->get();
       $post = Post::get();
-      return view('blog', ['post'=>$post]);
+      return view('post.index', ['post'=>$post]);
+   }
+   function show(Post $post){
+      // return Post::find($post);
+      // return Post::findOrFail($post);
+      // return $post;
+      return view('post.show',[
+         'Post' => $post
+      ]);
    }
 }

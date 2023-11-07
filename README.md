@@ -456,3 +456,63 @@ $post->body = 'Body1'
 ```
 $post->save()
 ```
+
+## Consulta registros por id
+### Rutas
+Para pasar parametros por la URL utilizamos **{post}**, por convención se utiliza lo siguiente:  
+**index**: para listar  
+**show**: para mostrar el detalle del listado  
+```php
+Route::view('/','welcome')->name('home');
+Route::view('/otronombre','concact')->name('contact');
+Route::get('/blog',[PostController::class,'index'])->name('post.index');
+Route::get('/blog/{post}',[PostController::class,'show'])->name('post.show');
+Route::view('/about','about')->name('about');
+```
+"Recomendable nombrar la ruta con [VISTA/CATGORIA].[ACCION]"
+### Controlador
+Creamos el metodo y pasamos el parámetro **function show($post)**, Tenemos 3 formas de buscar:  
+Busca el id, pero si el id no existe no arroja ningun error.
+```php
+return $Post = Post::find($post);
+```
+Busca el id, pero si el id no existe arroja un error 404.
+```php
+return $Post = Post::findOrFail($post);
+```
+Type Hints: Basta con pasarle el modelo en el parametro de la función.
+
+```php
+function show(Post $post){
+      return view('post.show',[
+         'Post' => $post
+      ]);
+   }
+```
+### Vista
+Es recomendable seccionar las vistas, en este caso estamos trabajando con posts entonces creamos el directorio:  
+* view/post/
+    * index.blade.php
+    * show.blade.php
+**index.blade.php**
+```html
+<x-layout.app title="Blog">
+    <h3>Blog</h3>
+    @foreach($post as $p)
+        <h4>
+            <a href="{{route('post.show',$p->id)}}">{{$p->title}}</a>
+        </h4>
+    @endforeach
+</x-layout.app>
+```
+**show.blade.php**
+```html
+<x-layout.app title="post">
+    <h1>{{$Post->title}}</h1>
+    <p>{{$Post->body}}</p>
+    <a href="{{route('post.index')}}">Regresar</a>
+</x-layout.app>
+```
+
+
+
