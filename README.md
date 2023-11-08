@@ -762,7 +762,7 @@ En en la vista de edicion es importante pasar una directiva de blade que es **me
 </x-layout.app>
 ```
 ## Actualizar datos del formulario
-En el metodo del controlador *Request $request, Post $post* recibimos los datos por parámetro, e instanciamos hacia el modelo con **Post**, por último regresamos a la vista **show**.
+En el metodo del controlador *update(Request $request, Post $post)* recibimos los datos por parámetro, e instanciamos hacia el modelo con **Post**, por último regresamos a la vista **show**.
 ```php
 function update(Request $request, Post $post){
   $request->validate([
