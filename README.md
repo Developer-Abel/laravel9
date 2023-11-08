@@ -700,5 +700,16 @@ function store(Request $request){
     <button type="submit">Enviar</button>
 </form>
 ```
-
+## Mensajes de validación en español
+Los mensajes por defecto estan en ingles, para pasarlos a español se debe de ejecutar los siguientes comandos.
+```
+composer require laraveles/spanish
+```
+```
+php artisan vendor:publish --tag=lang
+```
+Por ultimo cambiar el archivo **config/app.php**.
+```php
+ 'locale' => 'es',
+```
 
