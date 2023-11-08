@@ -761,4 +761,20 @@ En en la vista de edicion es importante pasar una directiva de blade que es **me
     <a href="{{route('post.index')}}">Regresar</a>
 </x-layout.app>
 ```
+## Actualizar datos del formulario
+En el metodo del controlador *Request $request, Post $post* recibimos los datos por parámetro, e instanciamos hacia el modelo con **Post**, por último regresamos a la vista **show**.
+```php
+function update(Request $request, Post $post){
+  $request->validate([
+     'title' => ['required'],
+     'body'  => ['required']
+  ]);
 
+  $post->title = $request->input('title');
+  $post->body = $request->input('body');
+  $post->save();
+
+  session()->flash('status','Post Actualizado!');
+  return to_route('post.show',$post);
+}
+```
