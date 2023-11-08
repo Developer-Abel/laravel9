@@ -656,6 +656,49 @@ Aunque es mas recomendable poner el mensaje de sesion en un ligar donde sea acce
 </body>
 </html>
 ```
+## Mensajes de validación para formularios
+Todas las reglas de validación se puede encontrar en este [link](https://laravel.com/docs/9.x/validation#available-validation-rules "validaciones").  
+**Controller**
+```php
+function store(Request $request){
+      $request->validate([
+         'title' => ['required'],
+         'body'  => ['required']
+      ]);
 
+      $post = New Post;
+      $post->title = $request->input('title');
+      $post->body = $request->input('body');
+      $post->save();
+
+      session()->flash('status','Post creado!');
+      return to_route('post.index');
+   }
+```
+**view (create.blade.php)**
+```html
+<form method="POST" action="{{route('post.store')}}">
+    @csrf
+    <label>
+        Title <br>
+        <input type="text" name="title" value="{{old('title')}}"> 
+        @error('title')
+            <br>
+            <small style="color: orangered;">{{$message}}</small>
+        @enderror
+        <br>
+    </label>
+    <label>
+        Body <br>
+        <textarea name="body">{{old('body')}}</textarea> <br>
+        @error('body')
+            <small style="color: orangered;">{{$message}}</small>
+            <br>
+        @enderror
+
+    </label>
+    <button type="submit">Enviar</button>
+</form>
+```
 
 
