@@ -33,4 +33,11 @@ class PostController extends Controller{
       session()->flash('status','Post creado!');
       return to_route('post.index');
    }
+   function edit(Post $post){
+
+      return view('post.edit', ['post'=>$post]);
+   }
+   function update(){
+      return 'actualizar';
+   }
 }

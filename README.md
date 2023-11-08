@@ -712,4 +712,53 @@ Por ultimo cambiar el archivo **config/app.php**.
 ```php
  'locale' => 'es',
 ```
+## Editar formulario
+Creamos las 2 rutas, una para mostrar el formulario de edición y la otra para actualizar.  
+**Route**
+```php
+Route::get('/blog/{post}/edit',[PostController::class,'edit'])->name('post.edit');
+Route::patch('/blog/{post}',[PostController::class,'update'])->name('post.update');
+```
+**Controller**
+```php
+function edit(Post $post){
+
+  return view('post.edit', ['post'=>$post]);
+}
+function update(){
+  return 'actualizar';
+}
+```
+En en la vista de edicion es importante pasar una directiva de blade que es **method('PATCH')**.  
+**VIEW (post/edit.blade.php)**
+```html
+<x-layout.app title="Crear nuevo post">
+    <h1>Editar post</h1>
+
+    <form method="POST" action="{{route('post.update',$post)}}">
+        @csrf @method('PATCH')
+        <label>
+            Title <br>
+            <input type="text" name="title" value="{{old('title',$post->title)}}"> 
+            @error('title')
+                <br>
+                <small style="color: orangered;">{{$message}}</small>
+            @enderror
+            <br>
+        </label>
+        <label>
+            Body <br>
+            <textarea name="body">{{old('body',$post->body)}}</textarea> <br>
+            @error('body')
+                <small style="color: orangered;">{{$message}}</small>
+                <br>
+            @enderror
+
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+    <br>
+    <a href="{{route('post.index')}}">Regresar</a>
+</x-layout.app>
+```
 
