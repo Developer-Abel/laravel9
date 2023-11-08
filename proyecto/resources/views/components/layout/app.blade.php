@@ -6,9 +6,12 @@
     <title>DevGala - {{$title ?? ''}}</title>
 </head>
 <body>
-    {{-- @include('partials.navigation') --}}
     <x-layout.navigation />
-    {{-- @yield('content') --}}
+
+    @if(session('status'))
+        <p>{{session('status')}}</p>
+    @endif
+    
     {{ $slot }}
 </body>
 </html>

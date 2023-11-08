@@ -595,11 +595,67 @@ Para obtener los datos **POST** en el controlador debemos de poner los parametro
 **Controller**
 ```php
 function store(Request $request){
-      $post = New Post;
-      $post->title = $request->input('title'); // name='title'
-      $post->body = $request->input('body'); // name='body'
-      $post->save();
+  $post = New Post;
+  $post->title = $request->input('title'); // name='title'
+  $post->body = $request->input('body'); // name='body'
+  $post->save();
 
-      return to_route('post.index');
-   }
+  return to_route('post.index');
+}
 ```
+## Mensajes de sesion
+Se realiza mediante la variable **session**.  
+**Controller**
+```php
+function store(Request $request){
+  $post = New Post;
+  $post->title = $request->input('title');
+  $post->body = $request->input('body');
+  $post->save();
+                 // variable, valor
+  session()->flash('status','Post creado!');
+  return to_route('post.index');
+}
+```
+Lo cachamos en el view.  
+**View**
+```html
+<x-layout.app title="Blog">
+    
+    @if(session('status'))
+        <p>{{session('status')}}</p>
+    @endif
+    
+    <h3>Blog</h3>
+    <a href="{{route('post.create')}}">Crear post</a>
+    @foreach($post as $p)
+        <h4>
+            <a href="{{route('post.show',$p->id)}}">{{$p->title}}</a>
+        </h4>
+    @endforeach
+</x-layout.app>
+```
+Aunque es mas recomendable poner el mensaje de sesion en un ligar donde sea accesible para todos.  
+**app.blade.php**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevGala - {{$title ?? ''}}</title>
+</head>
+<body>
+    <x-layout.navigation />
+
+    @if(session('status'))
+        <p>{{session('status')}}</p>
+    @endif
+    
+    {{ $slot }}
+</body>
+</html>
+```
+
+
+
