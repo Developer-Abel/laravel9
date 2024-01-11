@@ -784,7 +784,7 @@ Para crear un **FormRequest** se tiene que poner el siguiente comando:
 ```
 php artisan make:request SavePostRequest
 ```
-Nos crea un archivo en el directorio **app/Http/SavePostRequest.php**, el cual viene lo siguiente.
+Nos crea un archivo en el directorio **app/Http/Requests/SavePostRequest.php**, el cual viene lo siguiente.
 ```php
 class SavePostRequest extends FormRequest{
 
@@ -800,7 +800,7 @@ class SavePostRequest extends FormRequest{
     }
 }
 ```
-Lo modificamos y ponemos las reglas.
+Lo modificamos y ponemos las reglas (Es posible realizar validaciones).
 ```php
 class SavePostRequest extends FormRequest{
 
@@ -810,6 +810,14 @@ class SavePostRequest extends FormRequest{
 
 
     public function rules(){
+        // Realizar validaciones al actualizar y al guardar
+        // if($this->isMethod('POST')){
+        //     return [
+        //         'title' => ['min:8'],
+        //         'body'  => ['required']
+        //     ];
+
+        // }
         return [
             'title' => ['required'],
             'body'  => ['required']
@@ -843,7 +851,7 @@ function update(SavePostRequest $request, Post $post){
   return to_route('post.show',$post)->with('status','Post Actualizado!');
 }
 ```
-### IMPORTANTE DE FORMREQUEST
+### Nota
 Si llega a dar errores, se tiene que especificar las columas a guardar de esta forma en el modelo.
 ````php
 class Post extends Model

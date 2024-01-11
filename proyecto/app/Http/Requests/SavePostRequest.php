@@ -12,6 +12,15 @@ class SavePostRequest extends FormRequest{
 
 
     public function rules(){
+        // Realizar validaciones al actualizar y al guardar
+        // if($this->isMethod('POST')){
+        //     return [
+        //         'title' => ['min:8'],
+        //         'body'  => ['required']
+        //     ];
+
+        // }
+
         return [
             'title' => ['required'],
             'body'  => ['required']
