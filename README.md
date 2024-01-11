@@ -853,7 +853,7 @@ function update(SavePostRequest $request, Post $post){
 ```
 ### Nota
 Si llega a dar errores, se tiene que especificar las columas a guardar de esta forma en el modelo.
-````php
+```php
 class Post extends Model
 {
     use HasFactory;
@@ -863,3 +863,57 @@ class Post extends Model
     protected $fillable = ['title','body'];
 }
 ```
+
+## Asignación masiva
+La asignación masiva es cuando definimos los campos en el modelos para que se guarden o actualicen, el **$fillable** quiere decir que solo esos campos pueden guardarse o actualizarse.
+```php
+protected $fillable = ['title','body'];
+```
+Y el **$guarded** es lo opuesto, son las columnas que no deben de actualizarse.
+```php
+protected $guarded = ['id','token'];
+```
+Pero si nosotros lo ponemos vacio, estamos dejando que todos los campos se asignen,guarden o actualicen (es mejor).
+```php
+protected $guarded = [];
+```
+La otra forma de desabilitar para todos los modelos es modificar **app/Providers/AppServiceProvider.php**.
+```php
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Model;
+
+class AppServiceProvider extends ServiceProvider{
+
+    public function register(){
+        //
+    }
+    public function boot()
+    {
+        Model::unguard();
+    }
+}
+```
+
+Pero para esto nunca, jamas, debemos de utilizar lo siguiente a la hora de guardar o actualizar.
+```php
+Post::create($request->all());
+
+$post->update($request->all());
+```
+En su caso utilizaremos (u otro).
+```php
+Post::create($request->validated());
+
+$post->update($request->validated());
+```
+Y con esto nos aseguramos que solo se van a guardar o actualizar los campos que han sido validado previamente.
+
+
+
+
+
+
+
+
