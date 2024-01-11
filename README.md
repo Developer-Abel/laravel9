@@ -778,3 +778,80 @@ function update(Request $request, Post $post){
   return to_route('post.show',$post);
 }
 ```
+
+## FormRequest
+Para crear un **FormRequest** se tiene que poner el siguiente comando:
+```
+php artisan make:request SavePostRequest
+```
+Nos crea un archivo en el directorio **app/Http/SavePostRequest.php**, el cual viene lo siguiente.
+```php
+class SavePostRequest extends FormRequest{
+
+    public function authorize(){
+        return false;
+    }
+
+
+    public function rules(){
+        return [
+            //
+        ];
+    }
+}
+```
+Lo modificamos y ponemos las reglas.
+```php
+class SavePostRequest extends FormRequest{
+
+    public function authorize(){
+        return true;
+    }
+
+
+    public function rules(){
+        return [
+            'title' => ['required'],
+            'body'  => ['required']
+        ];
+    }
+}
+```
+
+Ahora podemos modificar varias cosas para simplificar código, pero antes se debe de importar el request.  
+```php
+use App\Http\Requests\SavePostRequest;
+```
+
+En el controlador **store** podemos añadir el **SavePostRequest** recien creado.
+```php
+function store(SavePostRequest $request){}
+```
+De igual forma cambiar la forma en que se guarda [Solo se va a guardar los campos que se esta validando].
+```php
+Post::create($request->validated());
+```
+Y por ultimo cambiar las sesiones flag.  
+```php
+return to_route('post.index')->with('status','Post creado!');
+```
+
+Se realiza lo mismo para el update.
+```php
+function update(SavePostRequest $request, Post $post){
+  $post->update($request->validated());
+  return to_route('post.show',$post)->with('status','Post Actualizado!');
+}
+```
+### IMPORTANTE DE FORMREQUEST
+Si llega a dar errores, se tiene que especificar las columas a guardar de esta forma en el modelo.
+````php
+class Post extends Model
+{
+    use HasFactory;
+
+    protected $table = 'post';
+
+    protected $fillable = ['title','body'];
+}
+```
