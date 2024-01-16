@@ -910,7 +910,61 @@ $post->update($request->validated());
 ```
 Y con esto nos aseguramos que solo se van a guardar o actualizar los campos que han sido validado previamente.
 
+## Vite 
+Vite es un compilador, es casi como laravel mix, para utilizarlo debemos de tener NODE (si no instalarlo):
+```
+>node -v                                                               
+v18.15.0        
+```
+Tambien debemos de instalar los paquetes NPM
+```
+npm install
+```
+Con esto debe de aparecer en la raiz del proyecto una carpeta llamada ***node_modules***.  
 
+Ahora solo debemos de incresar a la ruta ***resources/css/app.css*** y cambir los estilos.
+```css
+body{
+    background: red;
+}
+```
+Debemos de importar **vite** en el template "resource/views/components/app.blade.php".
+```php
+@vite(['resources/css/app.css'])
+```
+
+Y con esto podemos correr Vite.
+```
+npm run dev
+```
+Hasta este momento ya se debe de ber reflejado en la navegador los cambios, pero esto es mientras lo estamos realizando (mientras este en pruebas), si ya se requiere compilar debemos de publicarlo con el siguiente comando: 
+```
+npm run build
+```
+Podemos ver los archivos minificados en la ruta **public/build/assets/app-98h6.css**, este comando se debe de aplicar cada que queramos publicar los cambios ya sea de CSS o JS, de igual forma se puede SCSS.  
+
+Al final el template queda de la siguiente forma:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevGala - {{$title ?? ''}}</title>
+    @vite(['resources/css/app.css'])
+    @vite(['resources/js/app.js'])
+</head>
+<body>
+    <x-layout.navigation />
+
+    @if(session('status'))
+        <p>{{session('status')}}</p>
+    @endif
+    
+    {{ $slot }}
+</body>
+</html>
+```
 
 
 
