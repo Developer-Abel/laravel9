@@ -966,8 +966,42 @@ Al final el template queda de la siguiente forma:
 </html>
 ```
 
+## Tailwind CSS
 
+Tailwind CSS funciona como las clases de bootstrap ya que por medio de clases podemos darle estilos a los componenetes de HTML, de una forma rapida y flexible, Para instalarlo debemos de ejecutar estos 2 comandos:
+```
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
 
+En la raiz del proyecto se va a crear un archivo llamado **tailwind.config.js** y vamos especificar que archivos se van a alterar con tailwind.
+```js
+content: [
+    "./resources/**/*.blade.php",
+    "./resources/**/*.js",
+    "./resources/**/*.vue",
+  ],
+```
+Por ultimo en el directorio **resources/css/ap.css** escribimos lo siguiente:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
+Levantamos el servicio con 
+```
+npm run dev
+```
+
+Para ver los cambios podemos añadir el sigueinte H1 en el home:
+```html
+<x-layout.app title="Home">
+    <h3>Home</h3>
+    <h1 class="text-3xl text-blue-500 font-bold underline">
+    Hello world!
+  </h1>
+</x-layout.app>
+```
 
 
