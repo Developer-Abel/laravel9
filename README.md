@@ -982,7 +982,7 @@ content: [
     "./resources/**/*.vue",
   ],
 ```
-Por ultimo en el directorio **resources/css/ap.css** escribimos lo siguiente:
+Por ultimo en el directorio **resources/css/app.css** escribimos lo siguiente:
 ```css
 @tailwind base;
 @tailwind components;
@@ -1003,5 +1003,60 @@ Para ver los cambios podemos añadir el sigueinte H1 en el home:
   </h1>
 </x-layout.app>
 ```
+
+## routeMiddelware (Middelware)
+
+Los **Middelware** funcionan como una capa, en donde se le puede colocar una ruta como validación antes de pasar a otra ejemplo:  
+
+```php
+Route::view('/about','about')->name('about')->middleware('auth');
+```
+Con esto primero pasamos al **auth** en donde se realizan las validaciones de las credenciales y si todo va bien pasa a la ruta **about**.  
+
+El **auth** lo que hace es realizar unas validaciones y despues mandarnos al login si aun no esta autenticado (en estos momentos no tenemos la ruta login).  
+```php
+Route::get('/login', function (){
+    return 'login Page';
+})->name('login');
+```
+Lo siguiente activa el middelware en toda la ruta.
+```php
+->name('about')->middleware('auth');
+```
+### Autenticación en controladores
+Es posible poner la autenticación solo en algunos metodos del controlador, y esto se realiza dentro de un constructor con la palabra **only**.
+```php
+   public function __construct()
+   {
+      $this->middleware('auth',[
+         'only' => ['create','update']
+      ]);
+   }
+```
+Tambien podemos hacer lo contrario, ponearle validaciones a todos menos a algunos metodos.
+```php
+public function __construct()
+   {
+      $this->middleware('auth',[
+         'except' => ['index','show']
+      ]);
+   }
+```
+### Autenticacion en las vistas
+En el ejemplo anterior, el metodo **index** no tiene autenticación y en la vista index esta el boton de crear blog, este boton debe de estar oculto cuando el usuario no este autenticado, para esto tenemos que usar las directivas de blade.
+```php
+    @auth
+        <a href="{{route('post.create')}}">Crear post</a>
+    @endauth
+```
+Adicional a esta directiva, tambien tenemos la directiva **@guest** que es lo contrario, ya que solo muestra información a los usuarios que no han sido autenticados.
+```php
+@guest
+    // informacion
+@endguest
+```
+
+
+
 
 

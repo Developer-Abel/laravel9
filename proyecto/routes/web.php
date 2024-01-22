@@ -15,6 +15,8 @@ Route::get('/blog/{post}',[PostController::class,'show'])->name('post.show');
 Route::get('/blog/{post}/edit',[PostController::class,'edit'])->name('post.edit');
 Route::patch('/blog/{post}',[PostController::class,'update'])->name('post.update');
 
-Route::view('/about','about')->name('about');
+Route::view('/about','about')->name('about')->middleware('auth');
 
-
+Route::get('/login', function (){
+	return 'login Page';
+})->name('login');
