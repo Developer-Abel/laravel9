@@ -1042,7 +1042,7 @@ public function __construct()
       ]);
    }
 ```
-### Autenticacion en las vistas
+### Autenticación en las vistas
 En el ejemplo anterior, el metodo **index** no tiene autenticación y en la vista index esta el boton de crear blog, este boton debe de estar oculto cuando el usuario no este autenticado, para esto tenemos que usar las directivas de blade.
 ```php
     @auth
@@ -1055,8 +1055,16 @@ Adicional a esta directiva, tambien tenemos la directiva **@guest** que es lo co
     // informacion
 @endguest
 ```
+## Breeze
+Breeze es una libreria que ya te genera todo el login completo, desde regristro, conformación de contraseña etc, utiliza tailwind para css.  
+
+**Es importante validar la documentación ya que es un miy buen metodo para no realizar el login desde cero.**
+
+Si se requiere instalar, se debe de realizar al crear el proyecto, ya que modifica algunos archivos, principalmente wl **web.php** (archivo de rutas).
 
 
+### Técnicas de autenticación en Laravel
+En youtube buscar "Técnicas de autenticación en Laravel" para aprender como desarrollar un login sin paquetes.
 
 
 
